@@ -45,6 +45,20 @@ export interface Effects {
   effect_values: string[];
 }
 
+export interface XY {
+  x: number;
+  y: number;
+}
+
+export interface Color {
+  gamut: {
+    blue: XY;
+    green: XY;
+    red: XY;
+  };
+  xy: XY;
+}
+
 export interface Light {
   id: string;
   id_v1: string;
@@ -61,4 +75,5 @@ export interface Light {
   mode: string;
   effects: Effects;
   type: string;
+  color: Color;
 }
