@@ -9,8 +9,6 @@ interface Props {
 function LightCard({ light }: Props) {
   const queryClient = useQueryClient();
 
-  console.log(light);
-
   const mutation = useMutation({
     mutationFn: toggleLight,
     onSuccess: () => {
