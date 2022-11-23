@@ -1,37 +1,24 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
 import "./App.css";
+import { useQuery } from "@tanstack/react-query";
+import { getLights } from "./api/lights";
+import LightCard from "./components/LightCard";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const { data: lights, isLoading, isError } = useQuery(["lights"], getLights);
+
+  if (isError) {
+    return <p className="text-red-500">Error getting information !</p>;
+  }
+
+  if (isLoading) {
+    return <p>loading ....</p>;
+  }
 
   return (
-    <div className="App">
-      <h1 className="text-3xl font-bold underline text-yellow-600 hover:text-yellow-300 hover:cursor-pointer transition-all duration-75 ease-in">
-        Hello world!
-      </h1>
-      <div>
-        <div className="flex flex-row justify-center">
-          <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-            <img src="/vite.svg" className="logo" alt="Vite logo" />
-          </a>
-          <a href="https://reactjs.org" target="_blank" rel="noreferrer">
-            <img src={reactLogo} className="logo react" alt="React logo" />
-          </a>
-        </div>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+    <div className="grid grid-cols-3 gap-4">
+      {lights.data.map((light) => (
+        <LightCard key={light.id} light={light} />
+      ))}
     </div>
   );
 }
